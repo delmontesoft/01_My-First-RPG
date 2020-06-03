@@ -5,11 +5,24 @@ using UnityEngine.AI;
 
 public class Mover : MonoBehaviour
 {
-    [SerializeField] Transform target = null;
+    // [SerializeField] Transform target = null;
 
-// Update is called once per frame
-void Update()
+    void Update()
     {
-        GetComponent<NavMeshAgent>().SetDestination(target.transform.position);
+        if (Input.GetMouseButtonDown(0)) {
+            MoveToCursor();
+        }
+    }
+
+    private void MoveToCursor()
+    {
+        RaycastHit raycastHit;
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        bool hasHit = Physics.Raycast(ray, out raycastHit);
+        
+        if (hasHit) {
+            GetComponent<NavMeshAgent>().SetDestination(raycastHit.point);
+        }
     }
 }
