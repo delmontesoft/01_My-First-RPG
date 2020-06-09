@@ -1,3 +1,4 @@
+using RPG.Core;
 using RPG.Movement;
 using UnityEngine;
 
@@ -15,7 +16,6 @@ namespace RPG.Combat
             if (!GetIsInRange())
             {
                 GetComponent<Mover>().MoveTo(target.position);
-
             }
             else
             {
@@ -30,6 +30,7 @@ namespace RPG.Combat
 
         public void Attack(CombatTarget combatTarget)
         {
+            GetComponent<ActionScheduler>().StartAction(this);
             target = combatTarget.transform;
         }
 
