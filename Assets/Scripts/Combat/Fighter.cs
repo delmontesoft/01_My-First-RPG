@@ -4,10 +4,21 @@ using UnityEngine;
 
 namespace RPG.Combat
 {
-    public class Fighter : MonoBehaviour
+    public class Fighter : MonoBehaviour, IAction
     {
         [SerializeField] float weaponRage = 2f;
         Transform target;
+
+        public void Attack(CombatTarget combatTarget)
+        {
+            GetComponent<ActionScheduler>().StartAction(this);
+            target = combatTarget.transform;
+        }
+
+        public void Cancel()
+        {
+            target = null;
+        }
 
         private void Update()
         {
@@ -19,24 +30,13 @@ namespace RPG.Combat
             }
             else
             {
-                GetComponent<Mover>().Stop();
+                GetComponent<Mover>().Cancel();
             }
         }
 
         private bool GetIsInRange()
         {
             return Vector3.Distance(transform.position, target.position) <= weaponRage;
-        }
-
-        public void Attack(CombatTarget combatTarget)
-        {
-            GetComponent<ActionScheduler>().StartAction(this);
-            target = combatTarget.transform;
-        }
-
-        public void Cancel()
-        {
-            target = null;
         }
     }
 }
