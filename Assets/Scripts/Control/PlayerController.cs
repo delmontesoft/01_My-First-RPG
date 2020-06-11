@@ -19,7 +19,7 @@ namespace RPG.Control
             {
                 CombatTarget target = rayCastHit.transform.GetComponent<CombatTarget>();
 
-                if (!target) continue;
+                if (!GetComponent<Fighter>().CanAttack(target)) continue;
                 
                 if (Input.GetMouseButtonDown(0))
                 {
