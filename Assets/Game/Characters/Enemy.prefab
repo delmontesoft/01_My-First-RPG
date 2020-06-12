@@ -26,6 +26,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d398a030cbe97e3478f565c78ee3cb68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7248023900040774214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2592121482990474551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af431047fa871654dbd4361c022c105d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chaseRange: 5
 --- !u!1001 &7477624435346069788
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -163,6 +176,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 7955672716645577790, guid: 703617c3c2c35024a9c9577742bf2fa3,
+        type: 3}
+      propertyPath: m_Speed
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4567565724075361093, guid: 703617c3c2c35024a9c9577742bf2fa3, type: 3}
