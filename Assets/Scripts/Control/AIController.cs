@@ -1,4 +1,5 @@
 ﻿using RPG.Combat;
+using RPG.Core;
 using RPG.Movement;
 using UnityEngine;
 
@@ -7,31 +8,62 @@ namespace RPG.Control
     public class AIController : MonoBehaviour
     {
         [SerializeField] float chaseRange = 5f;
+        [SerializeField] float suspicionTime = 2f;
 
-        GameObject player = null;
-        Fighter fighter = null;
+        GameObject player;
+        Fighter fighter;
+        Health health;
+        Mover mover;
+
+        Vector3 guardPosition;
+        float timeSinceLastSawPlayer = Mathf.Infinity;
 
         private void Start() 
         {
             player = GameObject.FindGameObjectWithTag("Player");
             fighter = GetComponent<Fighter>();
+            health = GetComponent<Health>();
+            mover = GetComponent<Mover>();
+
+            guardPosition = transform.position;
         }
 
         private void Update()
         {
-            AttackPlayer();
-        }
+            if (health.IsDead()) return;
 
-        private void AttackPlayer()
-        {
             if (InAttackRange() && fighter.CanAttack(player))
             {
-                fighter.Attack(player);
+                timeSinceLastSawPlayer = 0;
+                AttackBehaviour();
+
+            }
+            else if (timeSinceLastSawPlayer < suspicionTime)
+            {
+                SuspicionBehaviour();
             }
             else
             {
-                fighter.Cancel();
-            } 
+                GuardBehaviour();
+            }
+
+            timeSinceLastSawPlayer += Time.deltaTime;
+        }
+
+        private void AttackBehaviour()
+        {
+            fighter.Attack(player);
+        }
+
+        private void SuspicionBehaviour()
+        {
+            print("suspicious");
+            GetComponent<ActionScheduler>().CancelCurrentAction();
+        }
+        
+        private void GuardBehaviour()
+        {
+            mover.StartMoveAction(guardPosition);
         }
 
         private bool InAttackRange()
@@ -39,7 +71,7 @@ namespace RPG.Control
             return Vector3.Distance(player.transform.position, transform.position) <= chaseRange;
         }
 
-        private void OnDrawGizmos()
+        private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, chaseRange);

@@ -7,6 +7,7 @@ namespace RPG.Movement
     public class Mover : MonoBehaviour, IAction
     {
         NavMeshAgent navMeshAgent;
+        Health health = null;
 
         public void StartMoveAction(Vector3 destination)
         {
@@ -28,10 +29,13 @@ namespace RPG.Movement
         private void Start() 
         {
             navMeshAgent = GetComponent<NavMeshAgent>();
+            health = GetComponent<Health>();
         }
 
         private void Update()
         {
+            navMeshAgent.enabled = !health.IsDead();
+            
             UpdateAnimator();
         }
 
