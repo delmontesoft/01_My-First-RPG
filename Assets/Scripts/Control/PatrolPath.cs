@@ -13,10 +13,9 @@ namespace RPG.Control
             return transform.GetChild(i).position;
         }
 
-
         public int GetNextIndex(int i)
         {
-            if (i + 1 >= transform.childCount)
+            if (i + 1 == transform.childCount)
             {
                 return 0;
             }
@@ -24,7 +23,6 @@ namespace RPG.Control
             return i + 1;
         }
         
-
         private void OnDrawGizmos() 
         {
             if (!showPathGizmos) return;
