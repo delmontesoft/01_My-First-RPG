@@ -42,6 +42,8 @@ MonoBehaviour:
   suspicionTime: 5
   patrolPath: {fileID: 0}
   waypointTolerance: 0.5
+  waypointDwellTime: 3
+  patrolSpeedFraction: 0.5
 --- !u!1001 &7477624435346069788
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -173,12 +175,17 @@ PrefabInstance:
     - target: {fileID: 2625325279888641957, guid: 703617c3c2c35024a9c9577742bf2fa3,
         type: 3}
       propertyPath: healthPoints
-      value: 20
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 6281031161107192154, guid: 703617c3c2c35024a9c9577742bf2fa3,
         type: 3}
       propertyPath: m_Name
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 7955672716645577789, guid: 703617c3c2c35024a9c9577742bf2fa3,
+        type: 3}
+      propertyPath: maxSpeed
+      value: 4.3
       objectReference: {fileID: 0}
     - target: {fileID: 7955672716645577790, guid: 703617c3c2c35024a9c9577742bf2fa3,
         type: 3}

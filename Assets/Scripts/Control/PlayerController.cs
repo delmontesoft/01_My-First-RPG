@@ -50,7 +50,7 @@ namespace RPG.Control
             {
                 if (Input.GetMouseButton(0))
                 {
-                    GetComponent<Mover>().StartMoveAction(raycastHit.point);
+                    GetComponent<Mover>().StartMoveAction(raycastHit.point, 1f);
                 }
                 return true;
             }
