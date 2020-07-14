@@ -75,8 +75,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be1f442761c8bb94fbb0043776f1a356, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destinationPortalID: 0
   sceneToLoad: -1
   spawnPoint: {fileID: 9034638540183139214}
+  fadeOutTime: 0.5
+  fadeWaitTime: 0.5
+  fadeInTime: 1
 --- !u!1 &6691498288564361848
 GameObject:
   m_ObjectHideFlags: 0
