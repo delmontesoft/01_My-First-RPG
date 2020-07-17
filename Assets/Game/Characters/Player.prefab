@@ -103,6 +103,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 7315786949708985976, guid: 703617c3c2c35024a9c9577742bf2fa3,
+        type: 3}
+      propertyPath: uniqueIdentifier
+      value: player01
+      objectReference: {fileID: 0}
     - target: {fileID: 7391148461530692106, guid: 703617c3c2c35024a9c9577742bf2fa3,
         type: 3}
       propertyPath: weaponRage
