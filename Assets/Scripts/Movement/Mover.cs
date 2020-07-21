@@ -51,17 +51,39 @@ namespace RPG.Movement
             GetComponent<Animator>().SetFloat("forwardSpeed", speed);
         }
 
+        [System.Serializable]
+        struct MoverSaveData
+        {
+            public SerializableVector3 position;
+            public SerializableVector3 rotation;
+        }
+
         public object CaptureState()
         {
-            return new SerializableVector3(transform.position);
+            // ONE WAY IS WITH DICTIONARIES
+            // Dictionary<string, object> saveData = new Dictionary<string, object>();
+            // saveData["position"] = new SerializableVector3(transform.position);
+            // saveData["rotation"] = new SerializableVector3(transform.eulerAngles);
+
+            // THE OTHER WAY (BETTER) IS WITH THE STRUCT
+            MoverSaveData saveData = new MoverSaveData();
+            saveData.position = new SerializableVector3(transform.position);
+            saveData.rotation = new SerializableVector3(transform.eulerAngles);
+
+            return saveData;
         }
 
         public void RestoreState(object state)
         {
-            SerializableVector3 position = (SerializableVector3)state;
+            // Dictionary<string, object> saveData = (Dictionary<string, object>)state;
+            // SerializableVector3 position = (SerializableVector3)saveData["posicion"];
+            // SerializableVector3 rotation = (SerializableVector3)saveData["rotation"];
+
+            MoverSaveData saveData = (MoverSaveData)state;
 
             GetComponent<NavMeshAgent>().enabled = false;
-            transform.position = position.ToVector();
+            transform.position = saveData.position.ToVector();
+            transform.eulerAngles = saveData.rotation.ToVector();
             GetComponent<NavMeshAgent>().enabled = true;
         }
     }

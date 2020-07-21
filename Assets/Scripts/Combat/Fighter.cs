@@ -9,9 +9,36 @@ namespace RPG.Combat
         [SerializeField] float weaponDamage = 10f;
         [SerializeField] float weaponRage = 2f;
         [SerializeField] float timeBetweenAttacks = 1f;
+        [SerializeField] GameObject weaponPrefab = null;
+        [SerializeField] Transform rightHandTransform = null;
+        // [SerializeField] Transform leftHandTransform = null;
+        [SerializeField] AnimatorOverrideController weaponOverride = null;
 
         Health target;
         float timeSinceLastAttack = 0;
+
+        private void Start()
+        {
+            timeSinceLastAttack = timeBetweenAttacks;
+            SpawnWeapon();
+        }
+
+        private void Update()
+        {
+            timeSinceLastAttack += Time.deltaTime;
+
+            if (!target || target.IsDead()) return;
+
+            if (!GetIsInRange())
+            {
+                GetComponent<Mover>().MoveTo(target.transform.position, 1f);
+            }
+            else
+            {
+                GetComponent<Mover>().Cancel();
+                AttackBehaviour();
+            }
+        }
 
         public bool CanAttack(GameObject combatTarget)
         {
@@ -40,28 +67,6 @@ namespace RPG.Combat
             GetComponent<Animator>().SetTrigger("stopAttack");
         }
 
-        private void Start() 
-        {
-            timeSinceLastAttack = timeBetweenAttacks;
-        }
-
-        private void Update()
-        {
-            timeSinceLastAttack += Time.deltaTime;
-
-            if (!target || target.IsDead()) return;
-
-            if (!GetIsInRange())
-            {
-                GetComponent<Mover>().MoveTo(target.transform.position, 1f);
-            }
-            else
-            {
-                GetComponent<Mover>().Cancel();
-                AttackBehaviour();
-            }
-        }
-
         private void AttackBehaviour()
         {
             transform.LookAt(target.transform);
@@ -83,6 +88,12 @@ namespace RPG.Combat
         private bool GetIsInRange()
         {
             return Vector3.Distance(transform.position, target.transform.position) <= weaponRage;
+        }
+
+        private void SpawnWeapon()
+        {
+            Instantiate(weaponPrefab, rightHandTransform);
+            GetComponent<Animator>().runtimeAnimatorController = weaponOverride;
         }
 
         //Animation Hit() event
