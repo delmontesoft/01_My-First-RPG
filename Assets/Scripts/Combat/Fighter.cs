@@ -1,3 +1,4 @@
+using System;
 using RPG.Core;
 using RPG.Movement;
 using UnityEngine;
@@ -6,20 +7,19 @@ namespace RPG.Combat
 {
     public class Fighter : MonoBehaviour, IAction
     {
-        [SerializeField] float weaponDamage = 10f;
-        [SerializeField] float weaponRage = 2f;
         [SerializeField] float timeBetweenAttacks = 1f;
-        [SerializeField] GameObject weaponPrefab = null;
-        [SerializeField] Transform rightHandTransform = null;
-        // [SerializeField] Transform leftHandTransform = null;
-        [SerializeField] AnimatorOverrideController weaponOverride = null;
+        [SerializeField] Transform handTransform = null;
+        [SerializeField] Weapon weapon = null;
 
         Health target;
+        Animator animator;
         float timeSinceLastAttack = 0;
 
         private void Start()
         {
+            animator = GetComponent<Animator>();
             timeSinceLastAttack = timeBetweenAttacks;
+
             SpawnWeapon();
         }
 
@@ -63,8 +63,8 @@ namespace RPG.Combat
 
         private void StopAttack()
         {
-            GetComponent<Animator>().ResetTrigger("attack");
-            GetComponent<Animator>().SetTrigger("stopAttack");
+            animator.ResetTrigger("attack");
+            animator.SetTrigger("stopAttack");
         }
 
         private void AttackBehaviour()
@@ -80,28 +80,29 @@ namespace RPG.Combat
 
         private void TriggerAttack()
         {
-            GetComponent<Animator>().ResetTrigger("stopAttack");
+            animator.ResetTrigger("stopAttack");
             //This will trigger the Animation Hit() event
-            GetComponent<Animator>().SetTrigger("attack");
+            animator.SetTrigger("attack");
         }
 
         private bool GetIsInRange()
         {
-            return Vector3.Distance(transform.position, target.transform.position) <= weaponRage;
+            return Vector3.Distance(transform.position, target.transform.position) <= weapon.GetRange();
         }
 
         private void SpawnWeapon()
         {
-            Instantiate(weaponPrefab, rightHandTransform);
-            GetComponent<Animator>().runtimeAnimatorController = weaponOverride;
+            if (weapon == null || animator == null) return;
+
+            weapon.Spawn(handTransform, animator);
         }
 
         //Animation Hit() event
         void Hit()
         {
-            if (!target) return;
-            
-            target.TakeDamage(weaponDamage);
+            if (target == null || weapon == null) return;
+
+            target.TakeDamage(weapon.GetDamage());
         }
     }
 }
